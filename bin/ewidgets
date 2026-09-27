@@ -1,0 +1,4 @@
+#!/bin/sh
+# Run EWidgets from this checkout: ewidgets [daemon|show|hide|toggle|quit].
+# The autostart entry written by install.sh runs this.
+cd "$(dirname "$0")/.." && exec python3 -m ewidgets "$@"

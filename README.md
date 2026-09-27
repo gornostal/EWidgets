@@ -23,57 +23,31 @@ Escape or click elsewhere, and it's gone.
 It follows your system's light or dark theme and accent colour, so it looks
 like it belongs there.
 
-## Try it
+## Install
 
-You need elementary OS 8. Everything else is already on your system.
-
-```sh
-git clone https://github.com/gornostal/EWidgets.git
-cd EWidgets
-python3 -m ewidgets show
-```
-
-### Set up the swipe
-
-The swipe comes from [Touchégg](https://github.com/JoseExposito/touchegg),
-which elementary OS 8 already runs. Add this inside `<application name="All">`
-in `~/.config/touchegg/touchegg.conf`, with the path to your copy of EWidgets:
-
-```xml
-<gesture type="SWIPE" fingers="3" direction="DOWN">
-  <action type="RUN_COMMAND">
-    <repeat>false</repeat>
-    <command>/path/to/EWidgets/bin/ewidgets-toggle</command>
-    <on>begin</on>
-  </action>
-</gesture>
-```
-
-Then restart Touchégg with `pkill -x touchegg; touchegg &`, or log out and back in.
-
-**Heads-up:** out of the box, a three-finger swipe (up *or* down) opens the
-Multitasking View, so the two will fight. Move one of them to four fingers.
-To move the Multitasking View, which is what I recommend:
+You need elementary OS 8, logged in to the Secure Session (the default). In a
+terminal, run:
 
 ```sh
-gsettings set io.elementary.desktop.wm.gestures four-finger-swipe-up multitasking-view
-gsettings set io.elementary.desktop.wm.gestures three-finger-swipe-up none
+wget -qO- https://raw.githubusercontent.com/gornostal/EWidgets/main/install.sh | bash
 ```
 
-If you'd rather open EWidgets with four fingers, set `fingers="4"` in the
-Touchégg config above and `SWIPE_FINGERS = 4` in `ewidgets/core/blade.py`.
+[The installer](install.sh):
 
-The full details are in [the gesture notes](docs/three-finger-swipe-down.md).
+- installs the few system packages EWidgets needs, such as GTK 4 for Python
+  (it asks for your password only if something is missing)
+- puts EWidgets in `~/.local/share/ewidgets` and starts it when you log in
+- asks whether to open it with a three- or four-finger swipe down
 
-### Pick your city
+Out of the box, a three-finger swipe up *or* down opens the Multitasking View.
+If you pick three fingers, the installer offers to move the Multitasking View
+to a four-finger swipe up, so the two don't fight. The swipe comes from
+[Touchégg](https://github.com/JoseExposito/touchegg), which elementary OS 8
+already runs.
 
-The weather finds your location on its own. To pin it to a city, create
-`~/.config/ewidgets/ewidgets.conf`:
-
-```ini
-[weather]
-city=Kyiv
-```
+To update, run the same command again. To open EWidgets without a touchpad,
+bind `~/.local/share/ewidgets/bin/ewidgets toggle` to a keyboard shortcut in
+System Settings → Keyboard → Shortcuts → Custom.
 
 ## For developers
 

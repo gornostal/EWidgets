@@ -19,6 +19,7 @@ from collections.abc import Sequence
 import cairo
 from gi.repository import Gdk, GLib, Graphene, Gsk, Gtk
 
+from .. import config
 from . import gestures
 from . import pantheon_shell as ps
 from .motion import Tween, VelocityTracker
@@ -35,7 +36,8 @@ MARGIN_BOTTOM = 50
 # A full slide, like Gala's panel slide. Shorter distances take proportionally less.
 SLIDE_DURATION_US = 250_000
 MIN_SLIDE_DURATION_US = 100_000
-SWIPE_FINGERS = 3
+# 3 or 4, from [gesture] fingers= in ewidgets.conf, as set up by install.sh.
+SWIPE_FINGERS = config.get_int("gesture", "fingers", 3)
 # How far the blade moves per unit of Touchégg's swipe progress. Above 1, a
 # shorter swipe reveals it fully.
 SWIPE_SENSITIVITY = 1.6
@@ -198,6 +200,8 @@ class WidgetBlade(Gtk.Window):
             self._swipe = (direction, self._shown)
             self._velocity.reset()
             self._show_window()
+        elif direction == gestures.DOWN:
+            self.conceal()  # swiping down again closes it too
 
     def _on_swipe_update(self, direction: int, fraction: float) -> None:
         if not self._swipe:

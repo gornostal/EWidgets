@@ -50,7 +50,6 @@ location is resolved separately, in this order:
    (non-commercial, HTTP only) and returns latitude and longitude. IP location
    is often only accurate to the city or region. `ipapi.co` refused a test
    call for exceeding its rate limit, so it's not a good choice.
-3. **A city name set by the user** overrides both.
 
 ## Comparison
 
@@ -87,7 +86,7 @@ The Pirate Weather row is from memory and was not checked against its docs.
 
 - `ewidgets/widgets/weather/`: current temperature and icon, a row of
   5 hourly forecasts, and a row of 5 daily highs and lows.
-- Location chain: GeoClue → ip-api.com → the configured city.
+- Location chain: GeoClue → ip-api.com.
 - Refresh every 15–30 minutes (Open-Meteo updates hourly) and run requests off
   the GTK main thread so the blade never stutters.
 - Cache the last response so the blade shows something right away when it

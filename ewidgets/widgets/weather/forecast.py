@@ -1,8 +1,7 @@
 """Finds where you are and fetches its forecast from Open-Meteo. Everything
 here blocks, so it runs on a worker thread. See docs/weather-api-research.md.
 
-The location comes from, in order: a city set in ~/.config/ewidgets/ewidgets.conf
-([weather] city=Kyiv), GeoClue, then an IP lookup.
+The location comes from GeoClue, or from an IP lookup if GeoClue can't find it.
 """
 
 import json
@@ -17,11 +16,9 @@ from gi.repository import Gio, GLib
 from ... import APP_ID
 
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 IP_LOCATION_URL = "http://ip-api.com/json/?fields=status,lat,lon,city"
 HTTP_TIMEOUT_S = 10
 USER_AGENT = "EWidgets"
-CONFIG_PATH = Path(GLib.get_user_config_dir()) / "ewidgets" / "ewidgets.conf"
 CACHE_PATH = Path(GLib.get_user_cache_dir()) / "ewidgets" / "weather.json"
 # More than the card shows, so a cached forecast still covers the hours and
 # days ahead for a while.
@@ -43,22 +40,6 @@ def _get_json(url: str, params: dict[str, Any] | None = None) -> Any:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_S) as response:
         return json.load(response)
-
-
-def _configured_city() -> str | None:
-    keyfile = GLib.KeyFile()
-    try:
-        keyfile.load_from_file(str(CONFIG_PATH), GLib.KeyFileFlags.NONE)
-        return keyfile.get_string("weather", "city").strip() or None
-    except GLib.Error:
-        return None
-
-
-def _geocode(city: str) -> Location:
-    results = _get_json(GEOCODING_URL, {"name": city, "count": 1}).get("results")
-    if not results:
-        raise LookupError(f"no such place: {city}")
-    return results[0]["latitude"], results[0]["longitude"], results[0]["name"]
 
 
 def _geoclue_location() -> Location:
@@ -97,9 +78,6 @@ def _ip_location() -> Location:
 
 
 def _locate() -> Location:
-    city = _configured_city()
-    if city:
-        return _geocode(city)
     try:
         return _geoclue_location()
     except (GLib.Error, TimeoutError):

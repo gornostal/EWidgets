@@ -14,8 +14,14 @@ Python + GTK 4 (PyGObject). No extra dependencies.
 ```sh
 python3 -m ewidgets          # start in the background (blade stays hidden)
 python3 -m ewidgets toggle   # also: show, hide, quit
-bin/ewidgets-toggle          # fast toggle over D-Bus; starts the app if needed
+bin/ewidgets                 # the same, from any directory; autostart runs this
 ```
+
+`install.sh` is what users run, piped from `wget`: it installs the apt
+packages, clones into `~/.local/share/ewidgets` (or uses the checkout it's run
+from), writes `~/.config/autostart/io.github.ewidgets.EWidgets.desktop` and
+sets up the gesture. Its prompts read from `/dev/tty`, since stdin is the
+script itself.
 
 Hide it with Escape, by clicking elsewhere, or by swiping down again.
 
@@ -23,12 +29,7 @@ Hide it with Escape, by clicking elsewhere, or by swiping down again.
 
 The weather comes from [Open-Meteo](https://open-meteo.com), with no API key.
 Your location comes from GeoClue, or from your IP address if GeoClue can't
-find it. To use a fixed city instead, create `~/.config/ewidgets/ewidgets.conf`:
-
-```ini
-[weather]
-city=Kyiv
-```
+find it.
 
 Swipe left or right with two fingers on the card (or click the dots) to switch
 between the next 5 hours and the next 5 days.
@@ -54,9 +55,11 @@ desktop notification and plays a glassy ping.
 
 ## Gesture
 
-`~/.config/touchegg/touchegg.conf` runs `bin/ewidgets-toggle` on a
-three-finger swipe down. For Gala to ignore that swipe, the multitasking view
-is moved to a four-finger swipe up (a Gala gesture setting). See
+`core/gestures.py` listens to the Touchégg daemon directly, so the blade
+follows the fingers; `touchegg.conf` needs no gesture for it. The finger count
+is `[gesture] fingers=` in `ewidgets.conf` (3 by default). For Gala to ignore
+that swipe, the multitasking view is moved to the other finger count (a Gala
+gesture setting), which `install.sh` offers to do. See
 `docs/three-finger-swipe-down.md`.
 
 ## How it works
@@ -94,7 +97,10 @@ the venv is only for the tools.
 ## Layout
 
 ```
+install.sh            the installer users pipe from wget
+bin/                  ewidgets, the launcher
 ewidgets/
+  config.py           reads ~/.config/ewidgets/ewidgets.conf
   app.py              Gtk.Application: single instance, show/hide/toggle actions;
                       picks the widgets and loads the styles
   core/               the blade itself; knows nothing about individual widgets

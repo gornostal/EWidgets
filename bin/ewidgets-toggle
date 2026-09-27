@@ -1,8 +1,0 @@
-#!/bin/sh
-# Toggle the EWidgets blade. Used by the Touchégg three-finger-swipe-down gesture.
-# Talks to the running instance over D-Bus (fast); starts it if it isn't running.
-gdbus call --session --dest io.github.ewidgets.EWidgets \
-  --object-path /io/github/ewidgets/EWidgets \
-  --method org.gtk.Actions.Activate toggle '[]' '{}' >/dev/null 2>&1 && exit 0
-
-cd "$(dirname "$0")/.." && exec python3 -m ewidgets show

@@ -13,3 +13,6 @@ dist/
 *.swp
 *~
 .DS_Store
+
+# Local test VM notes
+vbox/

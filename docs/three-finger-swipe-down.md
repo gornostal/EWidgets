@@ -48,7 +48,12 @@ Touchégg (v2.0.17) is already installed:
 
 With the fix above, Gala no longer reacts to three-finger vertical swipes.
 
-Add this inside `<application name="All">`:
+EWidgets doesn't need a gesture in `touchegg.conf`: the daemon broadcasts
+every gesture over D-Bus as it happens (see `ewidgets/core/gestures.py`), and
+the blade follows it. A `RUN_COMMAND` gesture that toggles the blade, as
+earlier versions used, would fight with that, so `install.sh` removes it.
+
+For other commands, add a gesture like this inside `<application name="All">`:
 
 ```xml
 <gesture type="SWIPE" fingers="3" direction="DOWN">
@@ -63,7 +68,7 @@ Add this inside `<application name="All">`:
 Then restart the client:
 
 ```sh
-pkill -x touchegg; touchegg &
+pkill -u "$USER" -x touchegg; touchegg &
 ```
 
 (or log out and back in).
