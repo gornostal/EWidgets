@@ -1,0 +1,56 @@
+.album-art {
+  border-radius: 6px;
+  background-color: @ew_fill_subtle;
+  color: @ew_text_faint;
+}
+
+.track-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.track-artist {
+  font-size: 13px;
+  color: @ew_text_dim;
+}
+
+/* Transport buttons look like Raycast's back button: a dark glyph on a
+   faint fill, shown on hover (always, for play/pause). */
+.media-player button,
+.media-player button:backdrop {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  box-shadow: none;
+  color: @ew_text;
+  -gtk-icon-filter: none;
+  opacity: 1;
+}
+
+.media-player button:hover,
+.media-player button.play-button {
+  background: @ew_fill;
+}
+
+.media-player button:active,
+.media-player button.play-button:hover {
+  background: @ew_fill_strong;
+}
+
+.media-player button.play-button {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 8px;
+}
+
+.media-player button:focus-visible {
+  outline: 2px solid @ew_focus;
+  outline-offset: 1px;
+}
+
+.media-player button:disabled {
+  opacity: 0.4;
+}

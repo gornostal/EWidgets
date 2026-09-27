@@ -1,0 +1,116 @@
+/* The countdown card: two number wheels on a band, and its buttons.
+   The dials draw their own numbers in their CSS colour and font. */
+
+.dial {
+  font-size: 20px;
+  font-weight: 500;
+  font-feature-settings: "tnum";
+  color: @ew_text;
+  outline: none;
+}
+
+.dial-band {
+  border-radius: 8px;
+  background: @ew_fill;
+}
+
+.dial:focus-visible {
+  color: @ew_accent;
+}
+
+.dial-unit {
+  min-width: 26px;
+  font-size: 13px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+/* Room after "min" before the band ends. */
+.dial-unit:last-child {
+  padding-right: 8px;
+}
+
+.countdown-time {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.countdown-time.paused {
+  color: @ew_text_dim;
+}
+
+.countdown-caption {
+  font-size: 12px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+progressbar.countdown-bar > trough {
+  min-height: 6px;
+  min-width: 100px;
+  margin: 4px 8px 0;
+  border: none;
+  border-radius: 3px;
+  background: @ew_fill;
+  box-shadow: none;
+}
+
+progressbar.countdown-bar > trough > progress {
+  min-height: 6px;
+  border: none;
+  border-radius: 3px;
+  background: @ew_accent;
+  box-shadow: none;
+}
+
+/* Buttons like the media player's: start is a filled round button, stop a
+   faint glyph that fills in on hover. */
+.countdown button,
+.countdown button:backdrop {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  background: none;
+  box-shadow: none;
+  color: @ew_text;
+  -gtk-icon-filter: none;
+  -gtk-icon-shadow: none;
+  opacity: 1;
+}
+
+.countdown button:hover {
+  background: @ew_fill;
+}
+
+.countdown button:active {
+  background: @ew_fill_strong;
+}
+
+.countdown button.countdown-start {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 22px;
+  background: @ew_accent;
+  color: @ew_on_accent;
+}
+
+.countdown button.countdown-start:hover {
+  background-image: image(@ew_accent_hover);
+}
+
+.countdown button:focus-visible {
+  outline: 2px solid @ew_focus;
+  outline-offset: 1px;
+}
+
+.countdown button:disabled {
+  opacity: 0.4;
+}
+
+/* Shorter than the cards in the row above. */
+.countdown.widget-card {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

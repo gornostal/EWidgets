@@ -1,0 +1,32 @@
+[project]
+name = "ewidgets"
+version = "0.1.0"
+description = "A widget blade for Pantheon (elementary OS 8, Wayland)"
+requires-python = ">=3.12"
+dependencies = []  # PyGObject and pycairo come from the system (python3-gi, python3-gi-cairo)
+
+[dependency-groups]
+dev = ["ruff", "ty", "pygobject-stubs", "pycairo"]  # pycairo only for its type hints
+
+[tool.uv]
+package = false
+# The stubs cover GTK 3 by default; build them for GTK 4.
+config-settings-package = { pygobject-stubs = { config = "Gtk4,Gdk4" } }
+no-binary-package = ["pygobject-stubs"]
+# The stubs depend on PyGObject, which the system provides; don't build it.
+override-dependencies = ["pygobject; sys_platform == 'never'"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "BLE", "UP", "SIM", "RUF", "ANN"]
+ignore = [
+    "ANN401",  # Any is fine for GObject signal arguments
+    "SIM108",  # if/else blocks can read better than ternaries
+]
+allowed-confusables = ["–"]  # the en dash placeholder for a missing value
+
+[tool.ty.environment]
+python-version = "3.12"

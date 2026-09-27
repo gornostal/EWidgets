@@ -1,0 +1,21 @@
+/* Page dots under a carousel: each is a button drawn as a dot. */
+.carousel-dot,
+.carousel-dot:backdrop {
+  min-width: 6px;
+  min-height: 6px;
+  padding: 0;
+  margin: 2px 3px;
+  border: none;
+  border-radius: 3px;
+  background: @ew_dot;
+  box-shadow: none;
+  outline-offset: 1px;
+}
+
+.carousel-dot:hover {
+  background: @ew_dot_hover;
+}
+
+.carousel-dot.active {
+  background: @ew_dot_active;
+}

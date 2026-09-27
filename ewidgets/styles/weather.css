@@ -1,0 +1,30 @@
+.weather {
+  padding-bottom: 6px; /* the dots' own margin makes up the rest */
+}
+
+.weather-temp {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.weather-summary {
+  font-size: 14px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+.forecast-caption {
+  font-size: 12px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+.forecast-temp {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.forecast-low {
+  font-size: 13px;
+  color: @ew_text_faint;
+}

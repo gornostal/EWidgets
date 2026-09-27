@@ -1,0 +1,76 @@
+/* The Claude and Codex usage cards: a header, then a bar per limit. Limits
+   sharing a bar overlap, shortest on top, told apart by colour: the
+   accent, then its pair. */
+
+.usage-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.usage-status {
+  font-size: 12px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+.usage-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: @ew_text_dim;
+}
+
+.usage-dot {
+  min-width: 8px;
+  min-height: 8px;
+  margin-right: 3px;
+  border-radius: 4px;
+  background: @ew_accent;
+}
+
+.usage-dot.series-1 {
+  background: @ew_accent_pair;
+}
+
+.usage-reset {
+  font-size: 12px;
+  color: @ew_text_faint;
+}
+
+progressbar.usage-bar > trough {
+  min-height: 6px;
+  border: none;
+  border-radius: 3px;
+  background: @ew_fill;
+  box-shadow: none;
+}
+
+progressbar.usage-bar > trough > progress {
+  min-height: 6px;
+  border: none;
+  border-radius: 3px;
+  background: @ew_accent;
+  box-shadow: none;
+}
+
+progressbar.usage-bar.series-1 > trough > progress {
+  background: @ew_accent_pair;
+}
+
+/* Bars laid over the bottom one draw only their fill. */
+progressbar.usage-bar.overlay > trough {
+  background: none;
+}
+
+progressbar.usage-bar.warn > trough > progress {
+  background: @ew_usage_warn;
+}
+
+progressbar.usage-bar.high > trough > progress {
+  background: @ew_usage_high;
+}
+
+/* Shorter than the cards in the row above. */
+.ai-usage.widget-card {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

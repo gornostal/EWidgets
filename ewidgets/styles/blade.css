@@ -1,0 +1,27 @@
+/* The blade window, its glass, and the card each widget sits on.
+   Colours come from palette/. */
+
+.ewidgets-blade {
+  background: transparent;
+  font-family: Inter;
+  color: @ew_text;
+}
+
+.blade-content {
+  background-color: @ew_glass;
+  background-image: radial-gradient(ellipse 28% 52% at 12% 0%, @ew_glow, transparent),
+                    radial-gradient(ellipse 14% 32% at 96% 100%, @ew_glow_soft, transparent);
+  border-radius: 18px; /* keep in sync with CORNER_RADIUS in core/blade.py */
+  padding: 16px;
+  box-shadow: inset 0 0.5px 0 @ew_rim_top,
+              inset 0 1px 0 @ew_rim_top_soft,
+              inset 0 0 0 0.5px @ew_rim,
+              0 0 0 0.5px @ew_hairline,
+              0 6px 24px @ew_shadow;
+}
+
+.widget-card {
+  background: @ew_card;
+  border-radius: 8px;
+  padding: 14px 16px;
+}

@@ -1,0 +1,48 @@
+/* Light palette: Raycast-style light glass.
+   Colours are fixed rather than taken from the GTK theme so the blade looks
+   the same whatever the app underneath it is. dark.css redefines every colour
+   here while the OS prefers dark. The ew_ prefix keeps them from replacing
+   the theme's own colours. */
+
+/* Text */
+@define-color ew_text #070707;
+@define-color ew_text_dim alpha(black, 0.56);
+@define-color ew_text_faint alpha(black, 0.37);
+@define-color ew_focus #303030;
+
+/* Glass: #dedede over black, #f8f8f8 over white.
+   Rim: bright top edge, faint sides and bottom.
+   Border: #d9d9d9 hairline, then the drop shadow. */
+@define-color ew_glass rgba(247, 247, 247, 0.90);
+/* Accent light caught by the glass in two opposite corners, fading to nothing */
+@define-color ew_glow alpha(@ew_accent, 0.22);
+@define-color ew_glow_soft alpha(@ew_accent, 0.14);
+@define-color ew_rim_top alpha(white, 0.47);
+@define-color ew_rim_top_soft alpha(white, 0.25);
+@define-color ew_rim alpha(white, 0.10);
+@define-color ew_hairline #d9d9d9;
+@define-color ew_shadow alpha(black, 0.18);
+
+/* Card: #cbcbcb over black, #d9d9d9 over white (on the glass). */
+@define-color ew_card rgba(180, 180, 180, 0.45);
+
+/* Fills on a card, weakest to strongest */
+@define-color ew_fill_subtle alpha(black, 0.045);
+@define-color ew_fill alpha(black, 0.095);
+@define-color ew_fill_strong alpha(black, 0.14);
+
+/* Carousel page dots */
+@define-color ew_dot alpha(black, 0.18);
+@define-color ew_dot_hover alpha(black, 0.30);
+@define-color ew_dot_active alpha(black, 0.60);
+
+/* A pressed toggle tile. core/theme.py replaces this with the OS accent
+   (elementary's Blueberry 500 when there is none) and adds @ew_accent_pair,
+   a second colour worked out from it. */
+@define-color ew_accent #3689e6;
+@define-color ew_accent_hover alpha(white, 0.12);
+@define-color ew_on_accent white;
+
+/* Usage bars nearing and at their limit: elementary's Banana and Strawberry 500 */
+@define-color ew_usage_warn #f9c440;
+@define-color ew_usage_high #c6262e;

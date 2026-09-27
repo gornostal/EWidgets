@@ -1,0 +1,41 @@
+/* Dark palette, loaded on top of light.css while the OS prefers dark.
+   io.elementary.dock has no dark rules of its own: its style uses theme
+   colours, and the elementary stylesheet's dark variant redefines them as
+   @bg_color #333, @base_color #3a3a3a, @highlight_color white at 20% and
+   @borders black at 75%. The values below follow that palette. */
+
+@define-color ew_text white;
+@define-color ew_text_dim alpha(white, 0.60);
+@define-color ew_text_faint alpha(white, 0.42);
+@define-color ew_focus #e0e0e0;
+
+/* Glass: #333 at 80%.
+   Rim highlights are fainter than in light, the hairline darker. */
+@define-color ew_glass rgba(51, 51, 51, 0.80);
+/* Accent light caught by the glass in two opposite corners, fading to nothing */
+@define-color ew_glow alpha(@ew_accent, 0.32);
+@define-color ew_glow_soft alpha(@ew_accent, 0.20);
+@define-color ew_rim_top alpha(white, 0.10);
+@define-color ew_rim_top_soft alpha(white, 0.05);
+@define-color ew_rim alpha(white, 0.03);
+@define-color ew_hairline alpha(black, 0.50);
+@define-color ew_shadow alpha(black, 0.30);
+
+/* Card: #505050 at 70%, lighter than the glass to stand out. */
+@define-color ew_card alpha(#505050, 0.7);
+
+@define-color ew_fill_subtle alpha(white, 0.06);
+@define-color ew_fill alpha(white, 0.10);
+@define-color ew_fill_strong alpha(white, 0.16);
+
+@define-color ew_dot alpha(white, 0.20);
+@define-color ew_dot_hover alpha(white, 0.35);
+@define-color ew_dot_active alpha(white, 0.70);
+
+@define-color ew_accent #3689e6;
+@define-color ew_accent_hover alpha(white, 0.12);
+@define-color ew_on_accent white;
+
+/* Banana and Strawberry 300, brighter on dark glass */
+@define-color ew_usage_warn #ffe16b;
+@define-color ew_usage_high #ed5353;

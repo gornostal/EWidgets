@@ -1,0 +1,40 @@
+/* Square tiles (Do Not Disturb, dark mode, lock). The blade styles them as
+   cards; these rules undo the theme's button look and show the toggle state. */
+button.tile,
+button.tile:backdrop {
+  padding: 0;
+  border: none;
+  background: @ew_card;
+  box-shadow: none;
+  color: @ew_text;
+  -gtk-icon-filter: none;
+  -gtk-icon-shadow: none;
+  opacity: 1;
+}
+
+button.tile:hover {
+  background-image: image(@ew_fill_subtle);
+}
+
+button.tile:active {
+  background-image: image(@ew_fill);
+}
+
+button.tile:checked,
+button.tile:checked:backdrop {
+  background: @ew_accent;
+  color: @ew_on_accent;
+}
+
+button.tile:checked:hover {
+  background-image: image(@ew_accent_hover);
+}
+
+button.tile:focus-visible {
+  outline: 2px solid @ew_focus;
+  outline-offset: 1px;
+}
+
+button.tile:disabled {
+  opacity: 0.4;
+}
