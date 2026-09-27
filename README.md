@@ -6,7 +6,7 @@ Swipe down with three fingers on your
 touchpad and it glides in from the top of the screen. Swipe again, press
 Escape or click elsewhere, and it's gone.
 
-<!-- TODO: screenshot -->
+![EWidgets demo](docs/media/ewidgets.avif)
 
 ## What's inside
 
