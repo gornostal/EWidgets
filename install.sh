@@ -290,7 +290,7 @@ start_app() {
         return
     fi
     setsid -f "$DIR/bin/ewidgets" show >/dev/null 2>&1 </dev/null
-    info "Done. Swipe down (or press Escape, or click elsewhere) to hide it."
+    info "Done. Press Escape or click elsewhere to hide it."
 }
 
 main() {
