@@ -76,13 +76,23 @@ check_system() {
     info "OK"
 }
 
+# is_installed package: true if it, or an installed package that provides it,
+# is installed. On elementary OS 9, libgtk-4-1 provides libgtk-4-media-gstreamer.
+is_installed() {
+    dpkg-query -W -f='${db:Status-Abbrev}|${Package}, ${Provides}\n' 2>/dev/null |
+        awk -F'|' -v want="$1" '
+            $1 ~ /^ii/ {
+                n = split($2, names, /, */)
+                for (i = 1; i <= n; i++) { split(names[i], name, " "); if (name[1] == want) found = 1 }
+            }
+            END { exit !found }'
+}
+
 install_packages() {
     step "Installing system packages"
     local missing=() package
     for package in "${PACKAGES[@]}"; do
-        if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q "install ok installed"; then
-            missing+=("$package")
-        fi
+        is_installed "$package" || missing+=("$package")
     done
     if ((${#missing[@]} == 0)); then
         info "Already installed"
