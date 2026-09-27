@@ -23,6 +23,16 @@ Escape or click elsewhere, and it's gone.
 It follows your system's light or dark theme and accent colour, so it looks
 like it belongs there.
 
+## Make it yours
+
+EWidgets isn't packaged as a .deb or a Flatpak, and that's on purpose.
+The installer below puts the full source code in `~/.local/share/ewidgets`,
+so you can use an AI agent to ✨ **infinitely customize** ✨ it. Open that folder in
+Claude Code, Codex or any other coding agent and ask for what you want: a new
+widget, a different layout, your own colours. [AGENTS.md](AGENTS.md) explains
+the code to the agent, so it knows where everything goes. Restart
+EWidgets to see the change.
+
 ## Install
 
 You need elementary OS 8, logged in to the Secure Session (the default). In a
