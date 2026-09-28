@@ -30,6 +30,8 @@ GESTURES_SCHEMA="io.elementary.desktop.wm.gestures"
 TOUCHEGG_CONF="$HOME/.config/touchegg/touchegg.conf"
 EWIDGETS_CONF="${XDG_CONFIG_HOME:-$HOME/.config}/ewidgets/ewidgets.conf"
 AUTOSTART="${XDG_CONFIG_HOME:-$HOME/.config}/autostart/$APP_ID.desktop"
+# The notification center only keeps notifications from installed apps.
+APP_ENTRY="${XDG_DATA_HOME:-$HOME/.local/share}/applications/$APP_ID.desktop"
 
 bold=$(tput bold 2>/dev/null || true)
 reset=$(tput sgr0 2>/dev/null || true)
@@ -139,8 +141,8 @@ set_up_autostart() {
     case $DIR in
         *[\"\`\$\\]*) die "The install path can't contain quotes, backquotes, \$ or backslashes: $DIR" ;;
     esac
-    mkdir -p "$(dirname "$AUTOSTART")"
-    cat >"$AUTOSTART" <<EOF
+    mkdir -p "$(dirname "$AUTOSTART")" "$(dirname "$APP_ENTRY")"
+    cat >"$APP_ENTRY" <<EOF
 [Desktop Entry]
 Type=Application
 Name=EWidgets
@@ -148,8 +150,9 @@ Comment=Weather, music, quick toggles and more, a swipe away
 Exec="$DIR/bin/ewidgets"
 Icon=preferences-desktop-apps
 NoDisplay=true
-X-GNOME-Autostart-enabled=true
 EOF
+    info "Wrote $APP_ENTRY"
+    { cat "$APP_ENTRY"; echo "X-GNOME-Autostart-enabled=true"; } >"$AUTOSTART"
     info "Wrote $AUTOSTART"
 }
 

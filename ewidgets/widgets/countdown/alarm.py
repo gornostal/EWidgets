@@ -7,8 +7,17 @@ from pathlib import Path
 
 from gi.repository import Gio, GLib, Gtk
 
+from ... import APP_ID
+
 SOUND = Path(__file__).with_name("alarm.wav")
 NOTIFICATION_ICON = "alarm-symbolic"
+NOTIFICATION_HINTS = {
+    # The notification center keeps only notifications from an installed app
+    # (install.sh writes its .desktop file); the rest vanish unseen.
+    "desktop-entry": GLib.Variant("s", APP_ID),
+    # Critical: the bubble stays on screen until it's dismissed.
+    "urgency": GLib.Variant("y", 2),
+}
 
 
 class Alarm:
@@ -31,7 +40,7 @@ class Alarm:
             "Notify",
             GLib.Variant(
                 "(susssasa{sv}i)",
-                ("EWidgets", self._notification_id, NOTIFICATION_ICON, title, body, [], {}, -1),
+                ("EWidgets", self._notification_id, NOTIFICATION_ICON, title, body, [], NOTIFICATION_HINTS, -1),
             ),
             GLib.VariantType("(u)"),
             Gio.DBusCallFlags.NONE,
