@@ -12,12 +12,21 @@
   background-image: radial-gradient(ellipse 28% 52% at 12% 0%, @ew_glow, transparent),
                     radial-gradient(ellipse 14% 32% at 96% 100%, @ew_glow_soft, transparent);
   border-radius: 18px; /* keep in sync with CORNER_RADIUS in core/blade.py */
-  padding: 16px;
   box-shadow: inset 0 0.5px 0 @ew_rim_top,
               inset 0 1px 0 @ew_rim_top_soft,
               inset 0 0 0 0.5px @ew_rim,
               0 0 0 0.5px @ew_hairline,
               0 6px 24px @ew_shadow;
+}
+
+.blade-cards {
+  padding: 16px;
+}
+
+/* The edge of the glass, lit in this colour next to the glows.
+   core/blade.py draws it; see RIM_GLOWS there. */
+.blade-rim {
+  color: @ew_rim_glow;
 }
 
 .widget-card {

@@ -17,6 +17,9 @@
 /* Accent light caught by the glass in two opposite corners, fading to nothing */
 @define-color ew_glow alpha(@ew_accent, 0.22);
 @define-color ew_glow_soft alpha(@ew_accent, 0.14);
+/* The edge next to the glows: the glass with @ew_glow over it, as it looks
+   there, then halfway to white so it reads as a lit edge */
+@define-color ew_rim_glow mix(mix(@ew_glass, @ew_accent, 0.22), white, 0.5);
 @define-color ew_rim_top alpha(white, 0.47);
 @define-color ew_rim_top_soft alpha(white, 0.25);
 @define-color ew_rim alpha(white, 0.10);

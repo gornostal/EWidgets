@@ -26,6 +26,13 @@ from .motion import Tween, VelocityTracker
 
 # Keep in sync with .blade-content's border-radius in styles/blade.css.
 CORNER_RADIUS = 18
+# Where the glass glows, its edge takes the glass's colour there instead of
+# the grey rim and hairline. Keep in sync with .blade-content's
+# background-image: each glow's centre and radii as fractions of the blade's
+# size, and its strength relative to @ew_glow (@ew_glow_soft is about 0.62 of it).
+RIM_WIDTH = 1
+HAIRLINE_WIDTH = 0.5  # the hairline box-shadow just outside the glass
+RIM_GLOWS = ((0.12, 0.0, 0.28, 0.52, 1.0), (0.96, 1.0, 0.14, 0.32, 0.62))
 CARD_SPACING = 10
 # Gala places the panel right below the wingpanel. Like io.elementary.dock's
 # 9px bottom-margin, a transparent strip keeps the glass just clear of it.
@@ -70,6 +77,54 @@ class _Slide(Gtk.Widget):
         self._child.allocate(width, height, baseline, shift)
 
 
+class _Rim(Gtk.Widget):
+    """The glass's edge, in its CSS colour where the glass glows.
+
+    Covers the rim and the hairline outside it, fading to nothing so the grey
+    edge shows everywhere else."""
+
+    def __init__(self) -> None:
+        super().__init__(css_classes=["blade-rim"], can_target=False)
+
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
+        width, height = self.get_width(), self.get_height()
+        out = HAIRLINE_WIDTH
+        bounds = Graphene.Rect().init(-out, -out, width + 2 * out, height + 2 * out)
+        outline = Gsk.RoundedRect()
+        outline.init_from_rect(bounds, CORNER_RADIUS + out)
+        color = self.get_color()
+
+        # The outline is the mask, the glows are what shows through it.
+        snapshot.push_mask(Gsk.MaskMode.ALPHA)
+        snapshot.append_border(outline, [RIM_WIDTH + out] * 4, [_with_alpha(color, 1)] * 4)
+        snapshot.pop()
+        for x, y, x_radius, y_radius, strength in RIM_GLOWS:
+            lit = _with_alpha(color, color.alpha * strength)
+            snapshot.append_radial_gradient(
+                bounds,
+                Graphene.Point().init(x * width, y * height),
+                x_radius * width,
+                y_radius * height,
+                0,
+                1,
+                [_stop(0, lit), _stop(1, _with_alpha(color, 0))],
+            )
+        snapshot.pop()
+
+
+def _with_alpha(color: Gdk.RGBA, alpha: float) -> Gdk.RGBA:
+    copy = color.copy()
+    copy.alpha = alpha
+    return copy
+
+
+def _stop(offset: float, color: Gdk.RGBA) -> Gsk.ColorStop:
+    stop = Gsk.ColorStop()
+    stop.offset = offset
+    stop.color = color
+    return stop
+
+
 class WidgetBlade(Gtk.Window):
     """Shows `rows` of widgets on the blade's glass, each widget on its own
     .widget-card. A row is a sequence of groups; cards in a group share one
@@ -89,15 +144,16 @@ class WidgetBlade(Gtk.Window):
         self._swipe: tuple[int, float] | None = None  # (direction, shown at swipe start) while fingers are down
         self._velocity = VelocityTracker()
 
-        content = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=CARD_SPACING,
+        glass = Gtk.Overlay(
             css_classes=["blade-content"],
             margin_top=MARGIN_TOP,
             margin_bottom=MARGIN_BOTTOM,
             margin_start=MARGIN_SIDE,
             margin_end=MARGIN_SIDE,
         )
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=CARD_SPACING, css_classes=["blade-cards"])
+        glass.set_child(content)
+        glass.add_overlay(_Rim())
         for groups in rows:
             row = Gtk.Box(spacing=CARD_SPACING)
             for widgets in groups:
@@ -107,7 +163,7 @@ class WidgetBlade(Gtk.Window):
                     group.append(widget)
                 row.append(group)
             content.append(row)
-        self._slide = _Slide(content)
+        self._slide = _Slide(glass)
         self.set_child(self._slide)
 
         keys = Gtk.EventControllerKey()
