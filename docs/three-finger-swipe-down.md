@@ -14,8 +14,9 @@ these touchpad gestures (`io.elementary.desktop.wm.gestures`):
 | `four-finger-swipe-horizontal`  | `none`              |
 | `four-finger-pinch`             | `none`              |
 
-Allowed values: `none`, `multitasking-view`, `toggle-maximized` (plus
-`switch-windows` for the horizontal swipes).
+Allowed values: `none`, `multitasking-view`, `toggle-maximized` (and
+`switch-to-workspace`, `move-to-workspace`, `switch-windows` for the
+horizontal swipes).
 
 Gala has no key for three-finger swipe down. However, when
 `three-finger-swipe-up` is `multitasking-view`, Gala binds **both** vertical
@@ -30,11 +31,8 @@ gsettings set io.elementary.desktop.wm.gestures four-finger-swipe-up multitaskin
 gsettings set io.elementary.desktop.wm.gestures three-finger-swipe-up none
 ```
 
-The three-finger horizontal window switcher is also turned off:
-
-```sh
-gsettings set io.elementary.desktop.wm.gestures three-finger-swipe-horizontal none
-```
+Horizontal swipes don't get in the way, so `three-finger-swipe-horizontal`
+can stay as it is (`switch-to-workspace` switches workspaces).
 
 ## Binding it with Touchégg
 
